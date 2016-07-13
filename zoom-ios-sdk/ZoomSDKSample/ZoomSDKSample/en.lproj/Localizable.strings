@@ -1,0 +1,63 @@
+/* 
+  Localizable.strings
+  ZoomSDKSample
+
+  Created by Xiaojian Hu on 8/6/14.
+  Copyright (c) 2014 Zoom Video Communications, Inc. All rights reserved.
+*/
+
+"Hello Zoom SDK" = "Hello, Zoom SDK";
+
+"Settings" = "Settings";
+
+"Auto Connect Internet Audio" = "Auto Connect Audio";
+
+"Auto Connect Internet Audio Setting" = "Automatically connect audio using internet when joining a meeting";
+
+"Always Mute My Microphone" = "Always Mute My Microphone";
+
+"Always mute my microphone when joining others' meeting" = "Always mute my microphone when joining a meeting";
+
+"Always Mute My Video" = "Always Turn Off My Video";
+
+"Always mute my video when joining others' meeting" = "Always turn off my video when joining a meeting";
+
+"Disable Driving Mode" = "Disable Driving Mode";
+
+"Driving Mode Setting" = "Driving Mode turns on speaker, stops video and mutes microphone";
+
+"Invite Participant" = "Invite Participant";
+
+"Disable Call in" = "Disable Call in";
+
+"Disable Call Out" = "Disable Call Out";
+
+"Please join meeting with ID: %@" = "Please join meeting with ID: %@";
+
+"Meeting URL: %@" = "Meeting URL: %@";
+
+"Hide Meeting Title" = "Hide Meeting Title";
+
+"Hide Meeting Leave" = "Hide Meeting Leave";
+
+"Hide Meeting Audio" = "Hide Meeting Audio";
+
+"Hide Meeting Video" = "Hide Meeting Video";
+
+"Hide Meeting Invite" = "Hide Meeting Invite";
+
+"Hide Meeting Participant" = "Hide Meeting Participant";
+
+"Hide Meeting Share" = "Hide Meeting Share";
+
+"Hide Meeting TopBar" = "Hide Meeting TopBar";
+
+"Hide Meeting BottomBar" = "Hide Meeting BottomBar";
+
+"SDK authentication failed, error code: %zd" = "SDK authentication failed, error code: %zd";
+
+"OK" = "OK";
+
+"Retry" = "Retry";
+
+
