@@ -60,4 +60,38 @@
 
 "Retry" = "Retry";
 
+"Cancel" = "Cancel";
 
+"Pause/Resume" = "Pause/Resume";
+
+"Meet Now" = "Meet Now";
+
+"Join a Meeting" = "Join a Meeting";
+
+"Please input the meeting number" = "Please input the meeting number";
+
+"Start a Meeting" = "Start a Meeting";
+
+"Start or join a video meeting on the go" = "Start or join a video meeting on the go";
+
+"Share Your Content" = "Share Your Content";
+
+"They see what you see" = "They see what you see";
+
+"Message Your Team" = "Message Your Team";
+
+"Send texts, voice messages, files and images" = "Send texts, voice messages, files and images";
+
+"Get Zooming!" = "Get Zooming!";
+
+"Work anywhere, with anyone, on any device" = "Work anywhere, with anyone, on any device";
+
+"Select Language" = "Select Language";
+
+"Waiting..." = "Sample Waiting...";
+
+"Zoom" = "SDK Sample";
+
+"Leave" = "Exit";
+
+"Leave Meeting" = "Exit Meeting";

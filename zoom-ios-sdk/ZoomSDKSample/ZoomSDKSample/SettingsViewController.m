@@ -7,6 +7,7 @@
 //
 
 #import "SettingsViewController.h"
+#import "LanguaguePickerViewController.h"
 #import <ZoomSDK/ZoomSDK.h>
 
 @interface SettingsViewController ()
@@ -17,6 +18,22 @@
 @property (retain, nonatomic) UITableViewCell *driveModeCell;
 @property (retain, nonatomic) UITableViewCell *callInCell;
 @property (retain, nonatomic) UITableViewCell *callOutCell;
+
+@property (retain, nonatomic) UITableViewCell *titleHiddenCell;
+@property (retain, nonatomic) UITableViewCell *leaveHiddenCell;
+@property (retain, nonatomic) UITableViewCell *inviteHiddenCell;
+@property (retain, nonatomic) UITableViewCell *shareHiddenCell;
+@property (retain, nonatomic) UITableViewCell *audioHiddenCell;
+@property (retain, nonatomic) UITableViewCell *videoHiddenCell;
+@property (retain, nonatomic) UITableViewCell *participantHiddenCell;
+@property (retain, nonatomic) UITableViewCell *moreHiddenCell;
+
+@property (retain, nonatomic) UITableViewCell *topBarHiddenCell;
+@property (retain, nonatomic) UITableViewCell *botBarHiddenCell;
+
+@property (retain, nonatomic) UITableViewCell *enableKubiCell;
+
+@property (retain, nonatomic) UITableViewCell *languageCell;
 
 @property (retain, nonatomic) NSArray *itemArray;
 
@@ -38,10 +55,31 @@
     [array addObject:@[[self autoConnectAudioCell]]];
     [array addObject:@[[self muteAudioCell]]];
     [array addObject:@[[self muteVideoCell]]];
-    if ([UIDevice currentDevice].userInterfaceIdiom != UIUserInterfaceIdiomPad)
+    if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad)
         [array addObject:@[[self driveModeCell]]];
-    [array addObject:@[[self callInCell]]];
-    [array addObject:@[[self callOutCell]]];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        [array addObject:@[[self enableKubiCell]]];
+    
+    NSMutableArray *ma = [NSMutableArray array];
+    [ma addObject:[self titleHiddenCell]];
+    [ma addObject:[self leaveHiddenCell]];
+    [ma addObject:[self audioHiddenCell]];
+    [ma addObject:[self videoHiddenCell]];
+    [ma addObject:[self inviteHiddenCell]];
+    [ma addObject:[self participantHiddenCell]];
+    [ma addObject:[self moreHiddenCell]];
+    [ma addObject:[self shareHiddenCell]];
+    [ma addObject:[self topBarHiddenCell]];
+    if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad)
+    {
+        [ma addObject:[self botBarHiddenCell]];
+    }
+    [array addObject:ma];
+    
+    [array addObject:@[[self callInCell], [self callOutCell]]];
+    
+    [array addObject:@[[self languageCell]]];
+    
     self.itemArray = array;
 }
 
@@ -195,6 +233,273 @@
     return _callOutCell;
 }
 
+- (UITableViewCell*)titleHiddenCell
+{
+    ZoomSDKMeetingSettings *settings = [[ZoomSDK sharedSDK] getMeetingSettings];
+    if (!settings)
+        return nil;
+    
+    BOOL hidden = [settings meetingTitleHidden];
+    
+    if (!_titleHiddenCell)
+    {
+        _titleHiddenCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+        _titleHiddenCell.selectionStyle = UITableViewCellSelectionStyleNone;
+        _titleHiddenCell.textLabel.text = NSLocalizedString(@"Hide Meeting Title", @"");
+        
+        UISwitch *sv = [[UISwitch alloc] initWithFrame:CGRectZero];
+        [sv setOn:hidden animated:NO];
+        [sv addTarget:self action:@selector(onHideMeetingTitle:) forControlEvents:UIControlEventValueChanged];
+        _titleHiddenCell.accessoryView = sv;
+    }
+    
+    return _titleHiddenCell;
+}
+
+- (UITableViewCell*)leaveHiddenCell
+{
+    ZoomSDKMeetingSettings *settings = [[ZoomSDK sharedSDK] getMeetingSettings];
+    if (!settings)
+        return nil;
+    
+    BOOL hidden = [settings meetingLeaveHidden];
+    
+    if (!_leaveHiddenCell)
+    {
+        _leaveHiddenCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+        _leaveHiddenCell.selectionStyle = UITableViewCellSelectionStyleNone;
+        _leaveHiddenCell.textLabel.text = NSLocalizedString(@"Hide Meeting Leave", @"");
+        
+        UISwitch *sv = [[UISwitch alloc] initWithFrame:CGRectZero];
+        [sv setOn:hidden animated:NO];
+        [sv addTarget:self action:@selector(onHideMeetingLeave:) forControlEvents:UIControlEventValueChanged];
+        _leaveHiddenCell.accessoryView = sv;
+    }
+    
+    return _leaveHiddenCell;
+}
+
+- (UITableViewCell*)audioHiddenCell
+{
+    ZoomSDKMeetingSettings *settings = [[ZoomSDK sharedSDK] getMeetingSettings];
+    if (!settings)
+        return nil;
+    
+    BOOL hidden = [settings meetingAudioHidden];
+    
+    if (!_audioHiddenCell)
+    {
+        _audioHiddenCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+        _audioHiddenCell.selectionStyle = UITableViewCellSelectionStyleNone;
+        _audioHiddenCell.textLabel.text = NSLocalizedString(@"Hide Meeting Audio", @"");
+        
+        UISwitch *sv = [[UISwitch alloc] initWithFrame:CGRectZero];
+        [sv setOn:hidden animated:NO];
+        [sv addTarget:self action:@selector(onHideMeetingAudio:) forControlEvents:UIControlEventValueChanged];
+        _audioHiddenCell.accessoryView = sv;
+    }
+    
+    return _audioHiddenCell;
+}
+
+- (UITableViewCell*)videoHiddenCell
+{
+    ZoomSDKMeetingSettings *settings = [[ZoomSDK sharedSDK] getMeetingSettings];
+    if (!settings)
+        return nil;
+    
+    BOOL hidden = [settings meetingVideoHidden];
+    
+    if (!_videoHiddenCell)
+    {
+        _videoHiddenCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+        _videoHiddenCell.selectionStyle = UITableViewCellSelectionStyleNone;
+        _videoHiddenCell.textLabel.text = NSLocalizedString(@"Hide Meeting Video", @"");
+        
+        UISwitch *sv = [[UISwitch alloc] initWithFrame:CGRectZero];
+        [sv setOn:hidden animated:NO];
+        [sv addTarget:self action:@selector(onHideMeetingVideo:) forControlEvents:UIControlEventValueChanged];
+        _videoHiddenCell.accessoryView = sv;
+    }
+    
+    return _videoHiddenCell;
+}
+
+- (UITableViewCell*)inviteHiddenCell
+{
+    ZoomSDKMeetingSettings *settings = [[ZoomSDK sharedSDK] getMeetingSettings];
+    if (!settings)
+        return nil;
+    
+    BOOL hidden = [settings meetingInviteHidden];
+    
+    if (!_inviteHiddenCell)
+    {
+        _inviteHiddenCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+        _inviteHiddenCell.selectionStyle = UITableViewCellSelectionStyleNone;
+        _inviteHiddenCell.textLabel.text = NSLocalizedString(@"Hide Meeting Invite", @"");
+        
+        UISwitch *sv = [[UISwitch alloc] initWithFrame:CGRectZero];
+        [sv setOn:hidden animated:NO];
+        [sv addTarget:self action:@selector(onHideMeetingInvite:) forControlEvents:UIControlEventValueChanged];
+        _inviteHiddenCell.accessoryView = sv;
+    }
+    
+    return _inviteHiddenCell;
+}
+
+- (UITableViewCell*)participantHiddenCell
+{
+    ZoomSDKMeetingSettings *settings = [[ZoomSDK sharedSDK] getMeetingSettings];
+    if (!settings)
+        return nil;
+    
+    BOOL hidden = [settings meetingParticipantHidden];
+    
+    if (!_participantHiddenCell)
+    {
+        _participantHiddenCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+        _participantHiddenCell.selectionStyle = UITableViewCellSelectionStyleNone;
+        _participantHiddenCell.textLabel.text = NSLocalizedString(@"Hide Meeting Participant", @"");
+        
+        UISwitch *sv = [[UISwitch alloc] initWithFrame:CGRectZero];
+        [sv setOn:hidden animated:NO];
+        [sv addTarget:self action:@selector(onHideMeetingParticipant:) forControlEvents:UIControlEventValueChanged];
+        _participantHiddenCell.accessoryView = sv;
+    }
+    
+    return _participantHiddenCell;
+}
+
+- (UITableViewCell*)shareHiddenCell
+{
+    ZoomSDKMeetingSettings *settings = [[ZoomSDK sharedSDK] getMeetingSettings];
+    if (!settings)
+        return nil;
+    
+    BOOL hidden = [settings meetingShareHidden];
+    
+    if (!_shareHiddenCell)
+    {
+        _shareHiddenCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+        _shareHiddenCell.selectionStyle = UITableViewCellSelectionStyleNone;
+        _shareHiddenCell.textLabel.text = NSLocalizedString(@"Hide Meeting Share", @"");
+        
+        UISwitch *sv = [[UISwitch alloc] initWithFrame:CGRectZero];
+        [sv setOn:hidden animated:NO];
+        [sv addTarget:self action:@selector(onHideMeetingShare:) forControlEvents:UIControlEventValueChanged];
+        _shareHiddenCell.accessoryView = sv;
+    }
+    
+    return _shareHiddenCell;
+}
+
+- (UITableViewCell*)moreHiddenCell
+{
+    ZoomSDKMeetingSettings *settings = [[ZoomSDK sharedSDK] getMeetingSettings];
+    if (!settings)
+        return nil;
+    
+    BOOL hidden = [settings meetingMoreHidden];
+    
+    if (!_moreHiddenCell)
+    {
+        _moreHiddenCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+        _moreHiddenCell.selectionStyle = UITableViewCellSelectionStyleNone;
+        _moreHiddenCell.textLabel.text = NSLocalizedString(@"Hide Meeting More", @"");
+        
+        UISwitch *sv = [[UISwitch alloc] initWithFrame:CGRectZero];
+        [sv setOn:hidden animated:NO];
+        [sv addTarget:self action:@selector(onHideMeetingMore:) forControlEvents:UIControlEventValueChanged];
+        _moreHiddenCell.accessoryView = sv;
+    }
+    
+    return _moreHiddenCell;
+}
+
+- (UITableViewCell*)topBarHiddenCell
+{
+    ZoomSDKMeetingSettings *settings = [[ZoomSDK sharedSDK] getMeetingSettings];
+    if (!settings)
+        return nil;
+    
+    BOOL hidden = [settings topBarHidden];
+    
+    if (!_topBarHiddenCell)
+    {
+        _topBarHiddenCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+        _topBarHiddenCell.selectionStyle = UITableViewCellSelectionStyleNone;
+        _topBarHiddenCell.textLabel.text = NSLocalizedString(@"Hide Meeting TopBar", @"");
+        
+        UISwitch *sv = [[UISwitch alloc] initWithFrame:CGRectZero];
+        [sv setOn:hidden animated:NO];
+        [sv addTarget:self action:@selector(onHideMeetingTopBar:) forControlEvents:UIControlEventValueChanged];
+        _topBarHiddenCell.accessoryView = sv;
+    }
+    
+    return _topBarHiddenCell;
+}
+
+- (UITableViewCell*)botBarHiddenCell
+{
+    ZoomSDKMeetingSettings *settings = [[ZoomSDK sharedSDK] getMeetingSettings];
+    if (!settings)
+        return nil;
+    
+    BOOL hidden = [settings bottomBarHidden];
+    
+    if (!_botBarHiddenCell)
+    {
+        _botBarHiddenCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+        _botBarHiddenCell.selectionStyle = UITableViewCellSelectionStyleNone;
+        _botBarHiddenCell.textLabel.text = NSLocalizedString(@"Hide Meeting BottomBar", @"");
+        
+        UISwitch *sv = [[UISwitch alloc] initWithFrame:CGRectZero];
+        [sv setOn:hidden animated:NO];
+        [sv addTarget:self action:@selector(onHideMeetingBotBar:) forControlEvents:UIControlEventValueChanged];
+        _botBarHiddenCell.accessoryView = sv;
+    }
+    
+    return _botBarHiddenCell;
+}
+
+- (UITableViewCell*)enableKubiCell
+{
+    ZoomSDKMeetingSettings *settings = [[ZoomSDK sharedSDK] getMeetingSettings];
+    if (!settings)
+        return nil;
+    
+    BOOL hidden = [settings enableKubi];
+    
+    if (!_enableKubiCell)
+    {
+        _enableKubiCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+        _enableKubiCell.selectionStyle = UITableViewCellSelectionStyleNone;
+        _enableKubiCell.textLabel.text = NSLocalizedString(@"Enable Kubi Device", @"");
+        
+        UISwitch *sv = [[UISwitch alloc] initWithFrame:CGRectZero];
+        [sv setOn:hidden animated:NO];
+        [sv addTarget:self action:@selector(onEnableKubi:) forControlEvents:UIControlEventValueChanged];
+        _enableKubiCell.accessoryView = sv;
+    }
+    
+    return _enableKubiCell;
+}
+
+- (UITableViewCell*)languageCell
+{
+    if (!_languageCell)
+    {
+        _languageCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+        _languageCell.selectionStyle = UITableViewCellSelectionStyleNone;
+        _languageCell.textLabel.text = NSLocalizedString(@"Select Language", @"");
+        _languageCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    }
+    
+    return _languageCell;
+}
+
+
 - (void)onAutoConnectAudio:(id)sender
 {
     UISwitch *sv = (UISwitch*)sender;
@@ -231,6 +536,72 @@
     [[[ZoomSDK sharedSDK] getMeetingSettings] disableCallOut:sv.on];
 }
 
+- (void)onHideMeetingTitle:(id)sender
+{
+    UISwitch *sv = (UISwitch*)sender;
+    [[ZoomSDK sharedSDK] getMeetingSettings].meetingTitleHidden = sv.on;
+}
+
+- (void)onHideMeetingLeave:(id)sender
+{
+    UISwitch *sv = (UISwitch*)sender;
+    [[ZoomSDK sharedSDK] getMeetingSettings].meetingLeaveHidden = sv.on;
+}
+
+- (void)onHideMeetingAudio:(id)sender
+{
+    UISwitch *sv = (UISwitch*)sender;
+    [[ZoomSDK sharedSDK] getMeetingSettings].meetingAudioHidden = sv.on;
+}
+
+- (void)onHideMeetingVideo:(id)sender
+{
+    UISwitch *sv = (UISwitch*)sender;
+    [[ZoomSDK sharedSDK] getMeetingSettings].meetingVideoHidden = sv.on;
+}
+
+- (void)onHideMeetingInvite:(id)sender
+{
+    UISwitch *sv = (UISwitch*)sender;
+    [[ZoomSDK sharedSDK] getMeetingSettings].meetingInviteHidden = sv.on;
+}
+
+- (void)onHideMeetingParticipant:(id)sender
+{
+    UISwitch *sv = (UISwitch*)sender;
+    [[ZoomSDK sharedSDK] getMeetingSettings].meetingParticipantHidden = sv.on;
+}
+
+- (void)onHideMeetingShare:(id)sender
+{
+    UISwitch *sv = (UISwitch*)sender;
+    [[ZoomSDK sharedSDK] getMeetingSettings].meetingShareHidden = sv.on;
+}
+
+- (void)onHideMeetingMore:(id)sender
+{
+    UISwitch *sv = (UISwitch*)sender;
+    [[ZoomSDK sharedSDK] getMeetingSettings].meetingMoreHidden = sv.on;
+}
+
+- (void)onHideMeetingTopBar:(id)sender
+{
+    UISwitch *sv = (UISwitch*)sender;
+    [[ZoomSDK sharedSDK] getMeetingSettings].topBarHidden = sv.on;
+}
+
+- (void)onHideMeetingBotBar:(id)sender
+{
+    UISwitch *sv = (UISwitch*)sender;
+    [[ZoomSDK sharedSDK] getMeetingSettings].bottomBarHidden = sv.on;
+}
+
+- (void)onEnableKubi:(id)sender
+{
+    UISwitch *sv = (UISwitch*)sender;
+    [[ZoomSDK sharedSDK] getMeetingSettings].enableKubi = sv.on;
+}
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -240,7 +611,8 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 1;
+    NSArray *arr = self.itemArray[section];
+    return [arr count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -274,4 +646,14 @@
     return nil;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = self.itemArray[indexPath.section][indexPath.row];
+    if (cell == _languageCell)
+    {
+        LanguaguePickerViewController * languaguePickerViewController = [[LanguaguePickerViewController alloc]init];
+        [self.navigationController pushViewController:languaguePickerViewController animated:YES];
+        [languaguePickerViewController release];
+    }
+}
 @end

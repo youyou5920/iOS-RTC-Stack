@@ -21,10 +21,15 @@
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
     
-    UIBarButtonItem *cancelItem = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(onCancel:)];
+    if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
+    {
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+    }
+
+    UIBarButtonItem *cancelItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Cancel", @"") style:UIBarButtonItemStyleBordered target:self action:@selector(onCancel:)];
     [self.navigationItem setLeftBarButtonItem:cancelItem];
     
-    UIBarButtonItem *doneItem = [[UIBarButtonItem alloc] initWithTitle:@"Pause/Resume" style:UIBarButtonItemStyleBordered target:self action:@selector(onDone:)];
+    UIBarButtonItem *doneItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Pause/Resume", @"") style:UIBarButtonItemStyleBordered target:self action:@selector(onDone:)];
     [self.navigationItem setRightBarButtonItem:doneItem];
     
     NSString *meetingID = [ZoomSDKInviteHelper sharedInstance].meetingID;
@@ -64,6 +69,11 @@
     [super viewDidLayoutSubviews];
     
     self.meetingURLLabel.frame = self.view.bounds;
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
 }
 
 /*

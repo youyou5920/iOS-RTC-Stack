@@ -59,3 +59,39 @@
 "OK" = "确定";
 
 "Retry" = "重试";
+
+"Cancel" = "取消";
+
+"Pause/Resume" = "暂停/重启";
+
+"Meet Now" = "召开会议";
+
+"Join a Meeting" = "加入会议";
+
+"Please input the meeting number" = "请输入您的会议号";
+
+"Start a Meeting" = "视频会议";
+
+"Start or join a video meeting on the go" = "方便快捷的召开或加入视频会议";
+
+"Share Your Content" = "屏幕共享";
+
+"They see what you see" = "身临其境的逼真体验";
+
+"Message Your Team" = "团队信息分享";
+
+"Send texts, voice messages, files and images" = "分享文字，语音消息，文件和图片";
+
+"Get Zooming!" = "开启Zoom的精彩之旅";
+
+"Work anywhere, with anyone, on any device" = "无论何时何地，协作无处不在";
+
+"Select Language" = "选择语言";
+
+"Waiting..." = "Sample 等待中...";
+
+"Zoom" = "SDK Sample";
+
+"Leave" = "退出";
+
+"Leave Meeting" = "退出会议";

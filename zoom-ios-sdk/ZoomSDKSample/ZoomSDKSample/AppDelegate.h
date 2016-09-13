@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <ZoomSDK/ZoomSDK.h>
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate, ZoomSDKAuthDelegate, UIAlertViewDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate, ZoomSDKAuthDelegate, UIAlertViewDelegate, ZoomSDKPremeetingDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 

@@ -10,7 +10,7 @@
 
 @implementation UIImage (Additions)
 
-+ (UIImage*)imageWithColor:(UIColor*)color
++ (UIImage*)imageWithUIColor:(UIColor*)color
 {
     CGRect rect = CGRectMake(0.f, 0.f, 1.f, 1.f);
     UIGraphicsBeginImageContext(rect.size);
